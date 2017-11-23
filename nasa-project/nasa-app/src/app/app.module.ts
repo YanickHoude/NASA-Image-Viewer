@@ -10,12 +10,14 @@ import {DataService} from './data.service';
 
 //import components
 import { ImageviewComponent } from './components/imageview/imageview.component';
+import { SearchbarComponent } from './components/searchbar/searchbar.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    ImageviewComponent
+    ImageviewComponent,
+    SearchbarComponent
   ],
   imports: [
     BrowserModule,

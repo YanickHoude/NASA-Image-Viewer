@@ -13,6 +13,9 @@ export class AppComponent {
     
   test:any;
   
+  text:string;
+  
+  
   testVariable: any;
 
   constructor(private _dataservice: DataService) { 
