@@ -6,20 +6,21 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 var core_1 = require('@angular/core');
-var AppComponent = (function () {
-    function AppComponent(_dataservice) {
-        // //accessing data services
-        //this._dataservice.getImages().subscribe(res =>  this.test =((JSON.stringify(res))));
-        this._dataservice = _dataservice;
+//importing dataservice
+//import {DataService} from '../data.service';
+var ImageviewComponent = (function () {
+    function ImageviewComponent() {
     }
-    ;
-    AppComponent = __decorate([
+    ImageviewComponent.prototype.ngOnInit = function () {
+        this.test = "test";
+    };
+    ImageviewComponent = __decorate([
         core_1.Component({
-            selector: 'app-root',
-            templateUrl: './app.component.html',
-            styleUrls: ['./app.component.css']
+            selector: 'app-imageview',
+            templateUrl: './imageview.component.html',
+            styleUrls: ['./imageview.component.css']
         })
-    ], AppComponent);
-    return AppComponent;
+    ], ImageviewComponent);
+    return ImageviewComponent;
 }());
-exports.AppComponent = AppComponent;
+exports.ImageviewComponent = ImageviewComponent;

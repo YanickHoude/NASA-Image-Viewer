@@ -6,65 +6,10 @@ const http = require('request');
 // This is technically a global variable for this file
 var db = mongojs('mongodb://admin:webtechlab5@ds113746.mlab.com:13746/nasa');
 
-// Backend function for getting items
+//NASA API CALLS
+
 module.exports.getImages = function (req, res){
 
-/*
-  
-   http('https://images-api.nasa.gov/search', function (error, response, body) {
-     
-    console.log('error:', error); // Print the error if one occurred
-    console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
-    console.log('body:', body);
-    
-    res.send(body)
-  });
-  
-  */
-  /*
-  var requestObj = { 
-      
-      
-          method: 'POST',
-          url: 'https://images-api.nasa.gov/search',
-          headers: 
-           { 
-             'content-type': 'application/json' 
-               
-           },
-          body: { 
-              q: 'apollo 11'
-          },
-          json: true 
-      
-        };
-          
-          
-        
-        http(requestObj, function (error, response, body) {
-            
-          if (error){
-              console.log("There is an error")
-              res.send(error)
-          }else{
-              console.log("Sending this body: " + JSON.stringify((body)))
-             res.send(body)
-          }
-        });
-        
-        
-        var options = { method: 'GET',
-          url: 'https://images-api.nasa.gov/asset/AFRC2017-0302-096',
-          headers: 
-           { 
-             'content-type': 'application/x-www-form-urlencoded'
-             },
-          form: { q: 'apollo' } 
-            
-        };
-        */
-        
-        
     var options = { 
         method: 'GET',
         url: 'https://images-api.nasa.gov/asset/AFRC2017-0302-096'
@@ -75,8 +20,8 @@ module.exports.getImages = function (req, res){
           if(error){
               console.log("error still")
           }else{
-              console.log("Workjing appearently")
-            console.log(body);
+             // console.log("Workjing appearently")
+            //console.log(body);
             
             res.send((body))
           }
@@ -86,12 +31,36 @@ module.exports.getImages = function (req, res){
 
 }
 
-// //test
-// module.exports.test = function(req,res){
+
+// Search by a word entered in the front 
+module.exports.searchQuery = function(req, res){
     
-//     var teststring = "Is Working";
-//     res.send(teststring)
-// }
+    // Extract the word entered in the search bar
+    console.log("Confirming we are extracting right word: " + JSON.stringify((req.body)))
+    
+    
+    var searchWord = req.body.property
+    
+    var options = {
+        method: 'GET', 
+        url: 'https://images-api.nasa.gov/search?q=' + searchWord
+    };
+        
+      http(options, function (error, response, body) {
+          if(error){
+              console.log("error still")
+          }else{
+              //console.log("Workjing appearently")
+            //console.log(body);
+            
+            res.send((body))
+          }
+          
+    });
+
+}
+
+
 
 
 // Backend function for inserting an item
@@ -135,5 +104,4 @@ module.exports.deleteUser = function (req, res){
         })
       })
 }
-
 

@@ -15,6 +15,10 @@ var DataService = (function () {
         var _this = this;
         return this._http.get("/api/getImages").map(function (result) { return _this.result = result; });
     };
+    DataService.prototype.searchImages = function (obj) {
+        var _this = this;
+        return this._http.post("/api/searchQuery", obj).map(function (result) { return _this.result = result; });
+    };
     DataService = __decorate([
         core_1.Injectable()
     ], DataService);

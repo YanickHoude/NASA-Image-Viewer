@@ -12,6 +12,9 @@ import {DataService} from './data.service';
 import { ImageviewComponent } from './components/imageview/imageview.component';
 import { SearchbarComponent } from './components/searchbar/searchbar.component';
 
+// Using NgModel for variable binding in HTML
+import { FormsModule } from '@angular/forms';
+
 
 @NgModule({
   declarations: [
@@ -21,7 +24,8 @@ import { SearchbarComponent } from './components/searchbar/searchbar.component';
   ],
   imports: [
     BrowserModule,
-    HttpModule //add Http Module
+    HttpModule, //add Http Module
+    FormsModule
   ],
   providers: [DataService], //add Dataservice
   bootstrap: [AppComponent]

@@ -16,4 +16,10 @@ export class DataService {
         return this._http.get("/api/getImages").map(result =>  this.result = result);
     }
     
+    searchImages(obj){
+        return this._http.post("/api/searchQuery", obj).map(result =>  this.result = result);
+    }
+    
+    
+    
 }

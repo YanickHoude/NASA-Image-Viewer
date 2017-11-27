@@ -15,5 +15,7 @@ router.get('/getImages', ctrl.getImages)
 
 router.put('/deleteUser', ctrl.deleteUser)
 
+router.post('/searchQuery', ctrl.searchQuery)
+
 // Make the router visible to other files
 module.exports = router

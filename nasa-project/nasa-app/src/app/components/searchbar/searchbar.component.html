@@ -1,5 +1,25 @@
-
+<label> Using NG-model </label>
 <div class="form-group">
-  <label for="usr">Search Nasa Database:</label>
-  <input type="text" class="form-control" id="usr">
+  <label>Search Nasa Database:</label>
+  
+  <!-- Bind to variable in component -->
+  <input type="text" class="form-control" [(ngModel)]="searchText">
+  
+  <!-- This is a bootstrap button. See more here: https://www.w3schools.com/bootstrap/bootstrap_buttons.asp -->
+  <button type="button" class="btn btn-primary" (click)="searchDB()"> Search Database </button>
 </div>
+
+
+  <ul>
+      <label>Sanity test: {{test}}</label>
+      <li *ngFor="let obj of nasaObjects"> hello bby
+        <!--Links: {{obj.href}}-->
+      </li>
+  </ul>
+  
+  
+  <!--<ul>-->
+  <!--  <li *ngFor="let test of testArray">-->
+  <!--    THis should be a number: {{test}}-->
+  <!--  </li>-->
+  <!--</ul>-->
