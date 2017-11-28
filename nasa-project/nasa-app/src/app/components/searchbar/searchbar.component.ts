@@ -48,35 +48,43 @@ export class SearchbarComponent  {
     // return as type json
     this._dataservice.searchImages(postObj).subscribe( function(res){
     
-      //empty array that will hold all collection titles
-      //var titlestemp = [];
       //empty array that will hold all collections
       var allcolls = [];
-      //keep track of where to push collection into allcolls
-      var index = 0;
        
       console.log("The amount of items: " + (JSON.parse(res["_body"]).collection.items.length ))
         
     
       for(let object of (JSON.parse(res["_body"]).collection.items)){
-        
+          
+        //this is a literal object that will hold all the info we need about the collections
         var Coll: {title: any, coll: any[] } = {title:'', coll:[]}
             
-        //get image titles
-        //titlestemp.push(object.data[0].title);
+        //assigning the collection title
         Coll.title = object.data[0].title;
         
-        //empty array for image links
-        var coll = [];
+        //check me out
+        var index = 0;
+        var test = [];
         
+        //object.href actually gives you a URL to a JSON file, so this is just to get the actual JSON
         $.getJSON(object.href, function(result){
+            
+            //the JSON file contains an array of image url's so we iterate through and add them to the array in our Coll object
             $.each(result, function(i, ilink){
-                Coll.coll.push(ilnk);
+                
+                //getfacked - here's where I'm getting bent over
+                Coll.coll.push(ilink);//--> this little doo dad over here adds an undefined element to the array and does fuck all
+                console.log(ilink);//--> this litte doo dad over here prints out the idividual fucking image links no problemo
+                //basically "ilink" is what it is supposed to be, but something about appending it to an array makes it worthless
+                //already tried: declaring a basic ass array (not part of an object) same issue
+                //already tried: assigin using "Coll.coll[index] = ilink" 
+                //already treid: stringifying that bitch, and parsing that bitch
+                
+                index = index + 1;
             });
         });
         
-        console.log(Coll.coll[0]);
-        
+        console.log(Coll.coll);
         allcolls.push(Coll);
         
         //test = this.http.get(object.href).map(res => JSON.stringify(res.json));
@@ -94,21 +102,7 @@ export class SearchbarComponent  {
       
       console.log("first collection: ", this.collections[0]);
       console.log("second collections: ", this.collections[1]);
-      
-      
-          
-          
-          
-    //     // Put each image object with info into an array
-    //   nasaItems.push(object)
-    //   console.log(JSON.stringify(object.href)
-     
-     // Set our array to a class object so that it can be referenced in the HTML file.
-     // Current problem is we neet to figure out how to get our array to automically update when the array is changed.
-     // This is dumb becuase angular 1 automatically checks if an array is updated. 
-   //console.log("The new array: " + JSON.stringify(this.nasaObjects))
     })
-    
     
   }
   
@@ -117,18 +111,3 @@ export class SearchbarComponent  {
   //working example
     // this._dataservice.getImages().subscribe(res =>  this.test =JSON.stringify(res));
     
-//for turning JSON returned from search into usable objects
-//   export class Collection {
-//     title: string;
-//     images: any[];
-      
-//     constructor(title:string,coll:any){
-//       this.title = title;
-//       var obj = JSON.parse(coll);
-      
-//       for(let x of obj){
-//           this.images.push(x);
-//           console.log(x);
-//       }
-//     }
-//   };
