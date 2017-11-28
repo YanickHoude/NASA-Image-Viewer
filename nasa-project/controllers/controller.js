@@ -12,7 +12,6 @@ module.exports.getImages = function (req, res){
 
     var options = { 
         method: 'GET',
-        url: 'https://images-api.nasa.gov/asset/AFRC2017-0302-096'
         
     };
         
