@@ -5,7 +5,10 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const path = require('path')
 const http = require('http')
+const bcrypt = require('bcrypt')
+const cors = require('cors');
 const app = express()
+app.use(cors())//stop that stupid header error
 
 // configure app to use bodyParser
 // this will let us get the data from a POST
@@ -48,9 +51,10 @@ router.route('/user')
 
     .post(function(req,res){
         var user = new User();
-        user.isVerified = req.body.isVerified;
         user.email = req.body.email;
-        user.password = req.body.password;
+        
+        //hash that password baby
+        user.hash = bcrypt.hashSync(req.body.password,10);
         
         user.save(function(err){
             if(err){
@@ -69,6 +73,25 @@ router.route('/user')
             }
             
             res.json(users);
+        });
+    });
+    
+router.route('/login')
+
+    .post(function(req,res){
+        
+        User.findOne({'email':req.body.email}, function(err, user){
+            
+            if(err){
+                res.send(err);
+            }
+        
+            if(bcrypt.compareSync(req.body.password,user.hash)){
+                res.json(user);
+            }
+            else{
+                res.send("No m8");
+            }
         });
     });
 
