@@ -50,7 +50,7 @@ router.route('/user')
         var user = new User();
         user.isVerified = req.body.isVerified;
         user.email = req.body.email;
-        user.password = req.body.email;
+        user.password = req.body.password;
         
         user.save(function(err){
             if(err){

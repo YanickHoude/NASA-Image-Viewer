@@ -16,6 +16,7 @@ export class DataService {
         return this._http.get("/api/getImages").map(result =>  this.result = result);
     }
     
+    //working for previous set u
     searchImages(obj){
         return this._http.post("/api/searchQuery", obj).map(result =>  this.result = result);
     }

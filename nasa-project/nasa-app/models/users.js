@@ -5,9 +5,13 @@ var Schema = mongoose.Schema;
 
 var UsersSchema = new Schema({
     
-    isVerified: Boolean,
-    email: String,
-    password: String
+    email:{
+        type: String,
+        // unique: true,
+        required: true
+    },
+    
+    hash: String
 });
 
 module.exports = mongoose.model('User', UsersSchema)
