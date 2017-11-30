@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import {AuthService} from '../../services/auth.service';
+import {Router} from '@angular/router';
 
 //allow the use of jQuery
 declare var jquery:any;
 declare var $:any;
-
-// //include bcrypt in module
-// const bcrypt = require('bcrypt');
 
 @Component({
   selector: 'app-login',
@@ -15,16 +14,21 @@ declare var $:any;
 
 export class LoginComponent {
   
-  isVerified:boolean = false; 
-  
+  router:Router;
+  authService:AuthService;
 
-  constructor() { };
+  constructor(router:Router, _authService: AuthService) {
+      this.router = router;
+      this.authService = _authService;
+  };
   
   login(){
-    
     //authentication  
+    
+    //allows us to access class elements within ajax callback function
+    var me = this;
+    
     $.ajax({
-      
       type: 'POST',
       url: 'https://lab5-yanickhoude.c9users.io:8081/api/login',
       data: {
@@ -36,23 +40,18 @@ export class LoginComponent {
           
           if(response.email == $('#email').val()){
             console.log(response.email);
-            this.isVerified = true;
-            console.log(this.isVerified);
+            me.authService.authenticated(response.email);
+            me.router.navigate(['./profile']);
           }
           else{
             $('#authError').css("display", "block");
           }
+          
       },
-      
       error: function(xhr){
         console.log('Error is here');
       }
-      
-      
-      
-      
     });
-    
     
   };
   

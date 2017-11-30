@@ -46,7 +46,7 @@ router.get('/', function(req,res){
 
 //++++++++++++++++++++
 // user
-//+++++++++++++++++=++
+//++++++++++++++++++++
 router.route('/user')
 
     .post(function(req,res){
@@ -75,7 +75,11 @@ router.route('/user')
             res.json(users);
         });
     });
-    
+
+
+//++++++++++++++++++++
+// login
+//++++++++++++++++++++
 router.route('/login')
 
     .post(function(req,res){

@@ -57,7 +57,7 @@ import { FormsModule } from '@angular/forms';
       ])
   ],
   
-  providers: [DataService, AuthService], //add Dataservice
+  providers: [DataService, AuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
