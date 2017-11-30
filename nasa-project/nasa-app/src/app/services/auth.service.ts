@@ -19,6 +19,10 @@ export class AuthService {
         else{
             return false;
         }
+    };
+    
+    getEmail(){
+        return this.activeUser;
     }
  }
   
