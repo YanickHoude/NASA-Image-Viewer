@@ -13,3 +13,35 @@
 </nav>
 
 <h1>create</h1>
+
+
+<body>
+    
+    <div class = "container">
+        
+        <div class="col-lg-4"></div>
+        <div class="col-lg-4"></div>
+        
+            <div class="jumbotron">
+                <form>
+                  
+                    <label class="radio-inline"><input type="radio" name="visradio" id="private" value ="private">Make Public</label>
+                    <div class = "form-group">
+                        <input type="text" class = "form-control" placeholder = "Enter Collection Title" id="title">
+                    </div>
+                    
+                    <div class = "form-group">
+                        <textarea rows="5" class="form-control" placeholder = "Description" id="description"></textarea>
+                    </div>
+                    
+                    <button type = "submit" class = "btn btn-primary form-control" (click)="createCollection()">Create</button>
+                     <div class = "col-lg-4">
+                    </div>
+                    
+                </form>
+            </div>
+        
+        <div class="col-lg-4"></div>
+
+    </div>
+</body>

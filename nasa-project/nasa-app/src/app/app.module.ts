@@ -14,7 +14,6 @@ import {AuthService} from './services/auth.service';
 import { ImageviewComponent } from './components/imageview/imageview.component';
 import { SearchbarComponent } from './components/searchbar/searchbar.component';
 import { LoginComponent } from './components/login/login.component';
-import { ProfileComponent } from './components/profile/profile.component';
 import { PublicComponent } from './components/public/public.component';
 import { PrivateComponent } from './components/private/private.component';
 import { CreateComponent } from './components/create/create.component';
@@ -31,7 +30,6 @@ import { FormsModule } from '@angular/forms';
     ImageviewComponent,
     SearchbarComponent,
     LoginComponent,
-    ProfileComponent,
     PublicComponent,
     PrivateComponent,
     CreateComponent,
@@ -54,11 +52,6 @@ import { FormsModule } from '@angular/forms';
       {
         path: 'login', 
         component: LoginComponent
-      },
-      
-      {
-        path: 'profile', 
-        component: ProfileComponent
       },
       
       {

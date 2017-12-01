@@ -6,11 +6,11 @@ var Schema = mongoose.Schema;
 var CollectionsSchema = new Schema({
     
     user: String,
-    name: String,
+    title: String,
     description: String,
     ratingPoints: Number,
     ratingNum: Number,
-    visibility: String,
+    private: Boolean,
     images: [String]
     
 });

@@ -24,6 +24,7 @@ mongoose.connect('mongodb://localhost:27017/users', {
 
 //adding schemas
 var User = require('./nasa-app/models/users');
+var Collection = require('./nasa-app/models/collections');
 
 //set the port
 var port = 8081;
@@ -63,6 +64,7 @@ router.route('/user')
         
             res.json({message: 'User Created'});
         });
+        
     })
 
     .get(function(req,res){
@@ -99,8 +101,48 @@ router.route('/login')
         });
     });
 
+//++++++++++++++++++++
+// collections
+//++++++++++++++++++++
+router.route('/collections')
 
+    .post(function(req,res){
+        var collection = new Collection();
+        collection.user = req.body.user;
+        collection.title = req.body.title;
+        collection.description = req.body.description;
+        collection.private = req.body.private;
+        
+        collection.save(function(err){
+            if(err){
+                res.send(err);
+            }
+        
+            res.json({message: 'Collection Created'});
+        });
+    })
+    
+    .get(function(req,res){
+        
+        Collection.find(function(err,collection){
+            if(err){
+                res.send(err);
+            }
+            
+            res.json(collection);
+        });
+    })
 
+    .delete(function(req, res) {
+        Collection.remove(
+            function(err, comments) {
+            if (err){
+                res.send(err);
+            }
+            res.json({ message: 'Successfully deleted comments' });
+        });
+    });
+    
 app.use('/api', router);
 
 app.listen(port);

@@ -22,6 +22,45 @@ export class LoginComponent {
       this.authService = _authService;
   };
   
+  ngOnInit() {
+    
+    var me = this;
+    
+    var colls = [];
+    
+    var card = "<div class='card'><img class='card-img-top' src='...' alt='Card image cap'><div class='card-block'><h4 class='card-title'>Title</h4><p class='card-text'>Description</p><p class='card-text'><small class='text-muted'>User</small></p></div></div>";
+    
+    //get collections from backend
+    $.getJSON('https://lab5-yanickhoude.c9users.io:8081/api/collections', function(data){
+      
+      $.each(data, function(){
+        
+        //add all collections
+        colls.unshift(this);
+        
+      })
+      
+      $.each(colls, function(i, coll){
+      
+        console.log(coll);
+        
+        if(!coll.private){
+          
+          var newCard = card.replace("Title", coll.title).replace("Description", coll.description).replace("User", coll.user);
+          console.log(newCard);
+          
+          $('#privateColls').append(newCard);
+        }
+      });
+    
+    });
+    
+    // this.collections = colls;
+    
+    // console.log(this.collections);
+    
+  };
+  
   login(){
     //authentication  
     
@@ -41,7 +80,7 @@ export class LoginComponent {
           if(response.email == $('#email').val()){
             console.log(response.email);
             me.authService.authenticated(response.email);
-            me.router.navigate(['./profile']);
+            me.router.navigate(['./public']);
           }
           else{
             $('#authError').css("display", "block");

@@ -21,10 +21,7 @@ export class CreateComponent implements OnInit {
       this.authService = _authService;
   };
   
-
   ngOnInit() {
-    
-    //prevent someone from just navigating to profile without loging in
     // if(!this.authService.check()){
     //   this.router.navigate(['./login']);
     // }
@@ -32,6 +29,36 @@ export class CreateComponent implements OnInit {
     //   $('#email').text(this.authService.getEmail() + "'s N(ice)ASA Profile");
     // }
   };
+  
+  createCollection(){
+    
+    var user = this.authService.getEmail();
+    var priv = !$('#private').prop('checked');
+    var title = $('#title').val();
+    var desc = $('#description').val();
+    
+    $.ajax({
+      type: 'POST',
+      url: 'https://lab5-yanickhoude.c9users.io:8081/api/collections',
+      data: {
+        user: user,
+        title: title,
+        description: desc,
+        private: priv
+      },
+      
+      success:function(response) {
+         console.log(response);
+         window.alert("Collection Created!");
+         $('#private').prop('checked', false);
+       },
+       error:function(){
+        alert("error");
+       }
+    });
+    
+  };
+  
   
   allColls(){
     
