@@ -31,9 +31,9 @@
             <p class="card-text">{{ card.description }}</p>
           </div>
           <div class="card-footer">
-            <small class="text-muted">Last updated 3 mins ago</small>
+            <small class="text-muted">Private: {{card.private}}</small>
             <button type = "submit" id = "edit" class = "btn btn-primary form-control" (click)="edit(card)">Edit</button>
-           <!-- <button type = "submit" id = "delete" class = "btn btn-primary form-control" (click)="delete(card)">Delete</button> -->
+            <button type = "submit" id = "delete" class = "btn btn-primary form-control" (click)="delete(card)">Delete</button> 
           </div>
           <div *ngIf="card.showEdit">
              <!-- Bind to variable in component -->
@@ -42,7 +42,7 @@
             <label> Edit desctiption</label>
             <input type="text" class="form-control" [(ngModel)]="descriptionEdit">
             <label class="radio-inline">
-            <input type="radio" name="visradio" value ="private" [(ngModel)] ="visEdit">Make Public</label>
+            <input type="radio" name="visradio" value ="private" [(ngModel)] ="visE" >Change Visibility</label>
           
           <!-- Save button -->
            <button type="button" class="btn btn-primary" (click)="saveEdits(card)"> Save </button>

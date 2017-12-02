@@ -16,6 +16,12 @@ export class LoginComponent {
   
   router:Router;
   authService:AuthService;
+  userExists: boolean = false;
+  currentUser: any;
+  
+  //ng bind variables
+  enteredEmail: string = "";
+  enteredPassword: string = "";
 
   constructor(router:Router, _authService: AuthService) {
       this.router = router;
@@ -55,35 +61,48 @@ export class LoginComponent {
     
     });
     
-    // this.collections = colls;
-    
-    // console.log(this.collections);
-    
   };
   
   login(){
-    //authentication  
+    
+    var currentUser: {email: string, password:string} = {email: this.enteredEmail, password: this.enteredPassword};
     
     //allows us to access class elements within ajax callback function
     var me = this;
+    
+    console.log(currentUser);
+  
+   $.getJSON('https://lab5-yanickhoude.c9users.io:8081/api/user', function(data){
+     
+      $.each(data, function(){
+        if(this.email == currentUser.email){
+          me.userExists = true;
+      }
+    });
+   });
+   
+   console.log(this.userExists);
+   
+   if(this.userExists){
     
     $.ajax({
       type: 'POST',
       url: 'https://lab5-yanickhoude.c9users.io:8081/api/login',
       data: {
-        email: $('#email').val(),
-        password: $('#password').val()
+        email: currentUser.email,
+        password: currentUser.password
       },
       
       success: function(response){
           
-          if(response.email == $('#email').val()){
+          if(response.email == currentUser.email){
             console.log(response.email);
             me.authService.authenticated(response.email);
             me.router.navigate(['./public']);
           }
           else{
-            $('#authError').css("display", "block");
+            $('#passError').css("display", "block");
+            $('#emailError').css("display", "none");
           }
           
       },
@@ -91,25 +110,48 @@ export class LoginComponent {
         console.log('Error is here');
       }
     });
+   }
+   else{
+     $('#emailError').css("display", "block");
+     $('#passError').css("display", "none");
+   }
     
   };
   
   register(){
     
-      $.ajax({
-      
-      type: 'POST',
-      url: 'https://lab5-yanickhoude.c9users.io:8081/api/user',
-      data: {
-        email: $('#email').val(),
-        password: $('#password').val()
-      }
-      
-    });
+    var currentUser: {email: string, password:string} = {email: this.enteredEmail, password: this.enteredPassword};
     
-    
-  }
-
+    var me = this;
+  
+     $.getJSON('https://lab5-yanickhoude.c9users.io:8081/api/user', function(data){
+       
+        $.each(data, function(){
+          //only add the collections that were made by this user to the array
+          if(this.email == currentUser.email){
+            me.userExists = true;
+            console.log(currentUser.email);
+        }
+      });
+     });
+     
+     if(this.userExists){
+        $('#regiError').css("display", "block");
+     }
+     else{
+        $.ajax({
+        
+        type: 'POST',
+        url: 'https://lab5-yanickhoude.c9users.io:8081/api/user',
+        data: {
+          email: currentUser.email,
+          password: currentUser.password
+        }
+      });
+     }
+    }
+  
+  
 }
   
 

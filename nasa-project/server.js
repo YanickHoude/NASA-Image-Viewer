@@ -76,7 +76,18 @@ router.route('/user')
             
             res.json(users);
         });
+    })
+    
+    .delete(function(req, res) {
+        User.remove(
+            function(err, users) {
+            if (err){
+                res.send(err);
+            }
+            res.json({ message: 'Successfully deleted users' });
+        });
     });
+    
 
 
 //++++++++++++++++++++
@@ -139,6 +150,20 @@ router.route('/collections/:collection_id')
                 res.json({messsage: 'Successfully updated collection'})
             })
         })
+    })
+    
+    .delete(function(req,res){
+        
+        console.log("deleting");
+        Collection.remove({
+            _id: req.params.collection_id
+        }, function(err,collection){
+            if(err){
+                res.send(err);
+            }
+            
+            res.json({message: 'Successfully deleted collection'});
+        });
     });
 
     
@@ -177,7 +202,7 @@ router.route('/collections')
 
     .delete(function(req, res) {
         Collection.remove(
-            function(err, comments) {
+            function(err, collections) {
             if (err){
                 res.send(err);
             }
