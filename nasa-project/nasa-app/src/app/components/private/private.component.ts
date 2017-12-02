@@ -23,11 +23,14 @@ export class PrivateComponent implements OnInit {
   authService:AuthService;
   elementRef:ElementRef;
   cardArray:any[] = new Array();
-  showEdit: Boolean = false
+  showEdit: Boolean = false;
   
   
   // Edit variables
-  currentTitle: string = ""
+  titleEdit: string = "";
+  descriptionEdit: string = "";
+  privateEdit: boolean = true;
+  
 
   constructor(router:Router, _authService: AuthService, elRef:ElementRef, private cdRef: ChangeDetectorRef) {
       this.router = router;
@@ -72,7 +75,7 @@ export class PrivateComponent implements OnInit {
         
         
         // Example object
-        var tempCard: { title: string, description: string, showEdit: Boolean } = { title: coll.title, description: coll.description, showEdit: false }
+        var tempCard: { id:string, title: string, description: string, showEdit: Boolean } = { id:coll._id, title: coll.title, description: coll.description, showEdit: false }
         me.cardArray.push(tempCard)
         
         
@@ -113,10 +116,26 @@ export class PrivateComponent implements OnInit {
   
   saveEdits(card){
     
-    // Bring in the edit variables
-     card.title = this.currentTitle
+    var me = this;
     
-    console.log("The updated title: " + card.title)
+    $.ajax({
+      type: 'PUT',
+      dataType: 'json',
+      url:"https://lab5-yanickhoude.c9users.io:8081/api/collections/" + card.id,
+      data: {
+        title: me.titleEdit,
+        description: me.descriptionEdit,
+        private: me.privateEdit
+      }
+    });
+    
+    // Bring in the edit variables
+    // card.title = this.titleEdit;
+    // card.description = this.descriptionEdit;
+    // card.private = !this.privateEdit;
+    
+    console.log(card.title + card.description + card.private);
+    console.log(card.id);
   }
   
   //Routing

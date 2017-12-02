@@ -100,10 +100,52 @@ router.route('/login')
             }
         });
     });
+    
+    
+router.route('/collections/:collection_id')
 
-//++++++++++++++++++++
+        
+    .get(function(req,res){
+        
+        console.log(req.params.collection_id);
+        Collection.findById(req.params.collection_id, function(err,collection){
+            if(err){
+                res.send(err);
+            }
+            
+            res.json(collection);
+        })
+    })
+    
+    .put(function(req,res){
+        
+        console.log(req.params.collection_id);
+        
+        Collection.findById(req.params.collection_id, function(err,collection){
+            
+            if (err){
+               res.send(err);
+            }
+            
+            collection.title = req.body.title;
+            collection.description = req.body.description;
+            collection.private = req.body.private;
+            
+            collection.save(function(err){
+                if(err){
+                    res.send(err)
+                }
+                
+                res.json({messsage: 'Successfully updated collection'})
+            })
+        })
+    });
+
+    
+
+// ++++++++++++++++++++
 // collections
-//++++++++++++++++++++
+// ++++++++++++++++++++
 router.route('/collections')
 
     .post(function(req,res){
@@ -139,10 +181,10 @@ router.route('/collections')
             if (err){
                 res.send(err);
             }
-            res.json({ message: 'Successfully deleted comments' });
+            res.json({ message: 'Successfully deleted collections' });
         });
     });
-    
+
 app.use('/api', router);
 
 app.listen(port);
