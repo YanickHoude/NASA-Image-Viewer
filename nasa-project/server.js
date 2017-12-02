@@ -171,6 +171,37 @@ router.route('/collections/:collection_id')
 // ++++++++++++++++++++
 // collections
 // ++++++++++++++++++++
+router.route('/collections/rate/:collection_id')
+
+        .put(function(req,res){
+        
+        console.log(req.params.collection_id);
+        
+        Collection.findById(req.params.collection_id, function(err,collection){
+            
+            if (err){
+               res.send(err);
+            }
+            
+            console.log(collection.ratingPoints);
+            console.log(collection.ratingNum);
+            
+            collection.ratingPoints = collection.ratingPoints + parseInt(req.body.rating);
+            collection.ratingNum = collection.ratingNum + 1;
+            
+            console.log(collection.ratingPoints);
+            console.log(collection.ratingNum);
+            
+            collection.save(function(err){
+                if(err){
+                    res.send(err)
+                }
+                
+                res.json({messsage: 'Successfully updated collection'})
+            })
+        })
+    });
+
 router.route('/collections')
 
     .post(function(req,res){
@@ -179,6 +210,8 @@ router.route('/collections')
         collection.title = req.body.title;
         collection.description = req.body.description;
         collection.private = req.body.private;
+        collection.ratingPoints = 0;
+        collection.ratingNum = 0;
         
         collection.save(function(err){
             if(err){

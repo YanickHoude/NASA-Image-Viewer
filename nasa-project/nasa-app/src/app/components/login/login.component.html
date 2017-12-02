@@ -24,11 +24,11 @@
             <div class="jumbotron">
                 <form>
                     <div class = "form-group">
-                        <input type="email" class = "form-control" placeholder = "Enter Email" id="email" [(ngModel)]="currentEmail" [ngModelOptions]="{standalone: true}">
+                        <input type="email" class = "form-control" placeholder = "Enter Email" id="email">
                     </div>
                     
                     <div class = "form-group">
-                        <input type="password" class="form-control" placeholder = "Password" id="password" [(ngModel)]="currentPassword" [ngModelOptions]="{standalone: true}">
+                        <input type="password" class="form-control" placeholder = "Password" id="password" >
                     </div>
                     
                     <button type = "submit" class = "btn btn-primary form-control" (click)="login()">Login</button>
@@ -37,6 +37,12 @@
                     </div>
                     <div class = "col-lg-4">
                         <span class = "error text-danger" id = "emailError" style="display:none">Invalid email</span>
+                    </div>
+                    <div class = "col-lg-4">
+                        <span class = "error text-danger" id = "passwordNull" style="display:none">Please enter a password</span>
+                    </div>
+                    <div class = "col-lg-4">
+                        <span class = "error text-danger" id = "emailNull" style="display:none">Please enter an email</span>
                     </div>
                     <button type = "submit" class = "btn btn-primary form-control" (click)="register()">Register</button>
                      <div class = "col-lg-4">
@@ -49,9 +55,32 @@
 
     </div>
     
-    
     <div class = "card-columns" id="privateColls">
-     
-    </div>
+        
+    <p>Highest Rated</p>
+    <ul>
+        <li *ngFor="let card of cardArray; let i=index" style=" list-style-type: none">
+          <div *ngIf = "i<10">
+          
+          <div class="card">
+          <img class="card-img-top" src="..." alt="Card image cap">
+          <div class="card-block">
+            <h4 class="card-title">{{ card.title }}</h4>
+            <p class="card-text">{{ card.description }}</p>
+          </div>
+          <div class="card-footer">
+            <small class="text-muted">Created by: {{card.user}}</small>
+            <small class="text-muted">Rating: {{card.rating}}</small>
+            <button type = "submit" class = "btn btn-primary form-control" (click)="rate(card)">Rate Collection</button>
+          </div>
+        </div>
+        
+        </div>
+        
+        </li>
+      </ul>
   
+    <p>Lowest Rated</p>
+  </div>
+
 </body>

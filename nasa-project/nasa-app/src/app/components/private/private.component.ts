@@ -21,7 +21,6 @@ export class PrivateComponent implements OnInit {
 
   router:Router;
   authService:AuthService;
-  elementRef:ElementRef;
   cardArray:any[] = new Array();
   showEdit: Boolean = false;
   
@@ -35,7 +34,6 @@ export class PrivateComponent implements OnInit {
   constructor(router:Router, _authService: AuthService, elRef:ElementRef, private cdRef: ChangeDetectorRef) {
       this.router = router;
       this.authService = _authService;
-      this.elementRef = elRef;
   };
   
 
@@ -84,17 +82,21 @@ export class PrivateComponent implements OnInit {
   
   delete(card){
     
+    var result = confirm("Are you sure you want to delete this collection?");
     var me = this;
     
-    $.ajax({
-      type:'DELETE',
-      url: "https://lab5-yanickhoude.c9users.io:8081/api/collections/" + card.id,
-    });
+    if(result){
     
-    //very dirty
-    card.title = "deleted";
-    card.description = "deleted";
-    card.private = '';
+      $.ajax({
+        type:'DELETE',
+        url: "https://lab5-yanickhoude.c9users.io:8081/api/collections/" + card.id,
+      });
+      
+      //very dirty
+      card.title = "deleted";
+      card.description = "deleted";
+      card.private = '';
+    }
   };
   
   saveEdits(card){

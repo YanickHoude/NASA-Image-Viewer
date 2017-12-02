@@ -15,9 +15,49 @@
 <h1>public</h1>
 
 <body>
-    
-    <div class = "card-columns" id="privateColls">
-     
-    </div>
   
+  <div class = "card-columns" id="privateColls">
+            
+    <p>Highest Rated</p>
+    <ul>
+        <li *ngFor="let card of cardArray; let i=index" style=" list-style-type: none">
+          <div *ngIf = "i<10">
+          
+          <div class="card">
+          <img class="card-img-top" src="..." alt="Card image cap">
+          <div class="card-block">
+            <h4 class="card-title">{{ card.title }}</h4>
+            <p class="card-text">{{ card.description }}</p>
+          </div>
+          <div class="card-footer">
+            <small class="text-muted">Created by: {{card.user}}</small>
+            <small class="text-muted">Rating: {{card.rating}}</small>
+            <button type = "submit" class = "btn btn-primary form-control" (click)="rate(card)">Rate Collection</button>
+          </div>
+          
+          <div *ngIf="card.showRate">
+             <!-- Bind to variable in component -->
+            <label>Rate Collection</label>
+              <select class="form-control" id="sel1" [(ngModel)]="rating">
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+              </select>
+            
+          
+          <!-- Save button -->
+           <button type="button" class="btn btn-primary" (click)="saveRating(card)"> Save </button>
+          
+          </div>
+        </div>
+        
+        </div>
+        
+        </li>
+      </ul>
+          
+    <p>Lowest Rated</p>
+  </div>
 </body>
