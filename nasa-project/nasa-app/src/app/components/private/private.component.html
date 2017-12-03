@@ -23,6 +23,7 @@
       
       <ul>
         <li *ngFor="let card of cardArray" style=" list-style-type: none">
+          <div *ngIf = "!card.deleted">
           
           <div class="card">
           <img class="card-img-top" src="..." alt="Card image cap">
@@ -42,15 +43,16 @@
             <label> Edit desctiption</label>
             <input type="text" class="form-control" [(ngModel)]="descriptionEdit">
             <label class="radio-inline">
-            <input type="radio" name="visradio" value ="private" [(ngModel)] ="visE" >Change Visibility</label>
+            <input type="checkbox" (click) = "privateToggle(card)" >Change Visibility</label>
           
           <!-- Save button -->
            <button type="button" class="btn btn-primary" (click)="saveEdits(card)"> Save </button>
           
         </div>
         </div>
-        
+        </div>
         </li>
+        
       </ul>
       
        

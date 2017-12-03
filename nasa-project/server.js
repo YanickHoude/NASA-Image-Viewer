@@ -111,7 +111,11 @@ router.route('/login')
             }
         });
     });
-    
+
+
+// ++++++++++++++++++++
+// collections
+// ++++++++++++++++++++
     
 router.route('/collections/:collection_id')
 
@@ -166,11 +170,37 @@ router.route('/collections/:collection_id')
         });
     });
 
-    
+router.route('/collections/save/:collection_id')
 
-// ++++++++++++++++++++
-// collections
-// ++++++++++++++++++++
+    .put(function(req,res){
+        
+        console.log(req.params.collection_id);
+        
+        Collection.findById(req.params.collection_id, function(err,collection){
+            
+            if (err){
+               res.send(err);
+            }
+            
+            console.log(collection);
+            collection.images.push(req.body.link);
+            
+            console.log(collection.images);
+            
+            console.log(req.body.link);
+            
+            
+            collection.save(function(err){
+                if(err){
+                    res.send(err)
+                }
+                
+                res.json({messsage: 'Successfully added image to collection'})
+            })
+        })
+    });
+
+
 router.route('/collections/rate/:collection_id')
 
         .put(function(req,res){
@@ -183,15 +213,10 @@ router.route('/collections/rate/:collection_id')
                res.send(err);
             }
             
-            console.log(collection.ratingPoints);
-            console.log(collection.ratingNum);
-            
             collection.ratingPoints = collection.ratingPoints + parseInt(req.body.rating);
             collection.ratingNum = collection.ratingNum + 1;
             
-            console.log(collection.ratingPoints);
-            console.log(collection.ratingNum);
-            
+
             collection.save(function(err){
                 if(err){
                     res.send(err)
@@ -212,6 +237,7 @@ router.route('/collections')
         collection.private = req.body.private;
         collection.ratingPoints = 0;
         collection.ratingNum = 0;
+        collection.images = [];
         
         collection.save(function(err){
             if(err){

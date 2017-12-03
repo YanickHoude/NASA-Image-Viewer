@@ -63,7 +63,7 @@ export class PrivateComponent implements OnInit {
       $.each(colls, function(i, coll){
     
         // Example object
-        var tempCard: { id:string, title: string, description: string, showEdit: Boolean, private:Boolean } = { id:coll._id, title: coll.title, description: coll.description, showEdit: false, private:coll.private }
+        var tempCard: { deleted: boolean, id:string, title: string, description: string, showEdit: Boolean, private:Boolean } = { deleted: false, id:coll._id, title: coll.title, description: coll.description, showEdit: false, private:coll.private }
         me.cardArray.push(tempCard);
         
         console.log("current state of array: " + JSON.stringify(me.cardArray))
@@ -92,21 +92,16 @@ export class PrivateComponent implements OnInit {
         url: "https://lab5-yanickhoude.c9users.io:8081/api/collections/" + card.id,
       });
       
-      //very dirty
-      card.title = "deleted";
-      card.description = "deleted";
-      card.private = '';
+      card.deleted = true;
+      
+      me.cdRef.detectChanges();
+      
     }
   };
   
   saveEdits(card){
     
     var me = this;
-    
-    //visibility
-    if(this.privateEdit){
-      card.private = !card.private;
-    }
     
     $.ajax({
       type: 'PUT',
@@ -124,6 +119,10 @@ export class PrivateComponent implements OnInit {
     card.private = this.privateEdit;
     card.showEdit = !card.showEdit;
     
+  }
+  
+  privateToggle(card){
+    card.private = !card.private;
   }
   
   //Routing

@@ -68,6 +68,8 @@ export class PublicComponent implements OnInit {
       //bubble sort
       me.cardArray = me.bubbleSort(me.cardArray);
       
+      console.log(me.cardArray);
+      
       me.cdRef.detectChanges();
     
     });

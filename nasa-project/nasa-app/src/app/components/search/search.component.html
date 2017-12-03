@@ -26,15 +26,46 @@
     <button type="button" class="btn btn-primary" (click)="searchDatabase()"> Search Database </button>
   </div>
 
-      <label>Sanity test</label>
+      <!--<label>Sanity test</label>-->
+      
+      <!--<div class="container">-->
+      <!--  <div *ngFor = "let obj of nasaCollection" class="row imagetiles">-->
+      <!--    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">-->
+      <!--      <img src={{obj[0]}} class="img-responsive">-->
+      <!--    </div>-->
+      <!--  </div>-->
+      <!--</div>-->
       
       <div class="container">
-        <div *ngFor = "let obj of nasaCollection" class="row imagetiles">
-          <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
-            <img src={{obj[0]}} class="img-responsive">
+
+      <h1 class="my-4 text-center text-lg-left">Thumbnail Gallery</h1>
+      <button type="button" class="btn btn-primary" (click)="decrIndex()"> prev </button>
+      <button type="button" class="btn btn-primary" (click)="incrIndex()"> next </button>
+    
+
+      <div class="row text-center text-lg-left">
+          
+        <div *ngFor = "let obj of nasaCollection[nasaIndex]">
+  
+          <div class="col-lg-3 col-md-4 col-xs-6">
+            <a href="#" class="d-block mb-4 h-100">
+              <img class="img-fluid img-thumbnail" src={{obj.link}} alt="">
+            </a>
+            <div>
+               <button type="button" class="btn btn-primary" (click)="saveImagePrompt(obj)"> Save Image </button>
+            </div>
+             <div *ngIf="obj.save">
+               <div *ngFor = "let coll of userColls">
+                 <button type="button" class="btn btn-primary" (click)="saveImage(obj.link,coll)"> Save to: {{coll.title}} </button>
+               </div>
+            </div>
           </div>
+          
         </div>
       </div>
+
+    </div>
+    <!-- /.container -->
 
   
   </body>
