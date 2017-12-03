@@ -13,3 +13,25 @@
 </nav>
 
 <h1>search</h1>
+
+<body>
+  
+  <div class="form-group">
+    <label>Search Nasa Database:</label>
+    
+    <!-- Bind to variable in component -->
+    <input type="text" class="form-control" [(ngModel)]="searchText">
+    
+    <!-- This is a bootstrap button. See more here: https://www.w3schools.com/bootstrap/bootstrap_buttons.asp -->
+    <button type="button" class="btn btn-primary" (click)="searchDatabase()"> Search Database </button>
+  </div>
+
+
+  <ul>
+      <label>Sanity test</label>
+      <li *ngFor="let obj of nasaCollection"> 
+        Links: {{obj[0]}}
+      </li>
+  </ul>
+  
+  </body>
