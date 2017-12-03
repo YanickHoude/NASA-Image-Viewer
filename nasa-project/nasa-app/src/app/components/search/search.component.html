@@ -26,12 +26,15 @@
     <button type="button" class="btn btn-primary" (click)="searchDatabase()"> Search Database </button>
   </div>
 
-
-  <ul>
       <label>Sanity test</label>
-      <li *ngFor="let obj of nasaCollection"> 
-        Links: {{obj[0]}}
-      </li>
-  </ul>
+      
+      <div class="container">
+        <div *ngFor = "let obj of nasaCollection" class="row imagetiles">
+          <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+            <img src={{obj[0]}} class="img-responsive">
+          </div>
+        </div>
+      </div>
+
   
   </body>
