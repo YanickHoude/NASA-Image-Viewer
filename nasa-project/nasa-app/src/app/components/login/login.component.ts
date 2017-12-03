@@ -32,6 +32,13 @@ export class LoginComponent {
   
   ngOnInit() {
     
+      this.getCollections();
+
+  };
+  
+  getCollections(){
+    
+    
     var me = this;
     
     var colls = [];
@@ -52,10 +59,9 @@ export class LoginComponent {
         if(coll.ratingPoints != 0){
           r = coll.ratingPoints / coll.ratingNum;
         }
-
-         
+        
         if(!coll.private){
-          var tempCard: { id:string, title: string, description: string, user:any, showRate:boolean, rating: any } = { id:coll._id, title: coll.title, description: coll.description, user: coll.user, showRate:false, rating: r };
+          var tempCard: {deleted: boolean, edited: boolean, rated: boolean, id:string, title: string, description: string, user:any, showRate:boolean, rating: any, images: any[] } = {deleted: false, edited: false, rated: false, id:coll._id, title: coll.title, description: coll.description, user: coll.user, showRate:false, rating: r, images: coll.images };
           me.cardArray.push(tempCard);
           }
       });
@@ -66,7 +72,8 @@ export class LoginComponent {
       me.cdRef.detectChanges();
     
     });
-  };
+    
+  }
   
   bubbleSort(array){
     var len = array.length;
@@ -116,8 +123,7 @@ export class LoginComponent {
         }
       });
     
-      console.log(me.userExists)
-      if(me.userExists){
+      if(me.userExists && this.active){
       
       $.ajax({
         type: 'POST',
@@ -146,8 +152,13 @@ export class LoginComponent {
       });
     }
       else{
-        $('#emailError').css("display", "block");
         $('#passError').css("display", "none");
+        if(!this.active){
+        window.alert("Need Email Confirmation");
+        }
+        else{
+        $('#emailError').css("display", "block");
+        }
       }
      });
      
@@ -171,28 +182,23 @@ export class LoginComponent {
     }
     
     var me = this;
-    
-    console.log($('#email').val());
   
      $.getJSON('https://lab5-yanickhoude.c9users.io:8081/api/user', function(data){
-       
-        console.log('sanity');
+
         $.each(data, function(){
-          console.log('sanity2');
-          //only add the collections that were made by this user to the array
           if(this.email == $('#email').val()){
             me.userExists = true;
-            console.log($('#email').val());
-            console.log(me.userExists);
         }
       });
-      
-      console.log(me.userExists);
+
       if(me.userExists){
         $('#regiError').css("display", "block");
       }
       else{
         $('#regiError').css("display", "none");
+        
+        window.alert("Account Created, Need Email Confirmation");
+        
         $.ajax({
         
         type: 'POST',

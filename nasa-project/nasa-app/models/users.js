@@ -11,7 +11,9 @@ var UsersSchema = new Schema({
         required: true
     },
     
-    hash: String
+    hash: String,
+    active: Boolean,
+    activeHash: String,
 });
 
 module.exports = mongoose.model('User', UsersSchema)

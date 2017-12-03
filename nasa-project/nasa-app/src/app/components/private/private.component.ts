@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {AuthService} from '../../services/auth.service';
+import {ViewService} from '../../services/view.service';
 import {Router} from '@angular/router';
-import { ElementRef } from '@angular/core';
 import { ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
 
 // Use to bind variables between html and this file
@@ -19,8 +19,12 @@ declare var $:any;
 })
 export class PrivateComponent implements OnInit {
 
+  //import variables
   router:Router;
   authService:AuthService;
+  viewService:ViewService;
+  
+  //variables for collection view
   cardArray:any[] = new Array();
   showEdit: Boolean = false;
   
@@ -31,19 +35,20 @@ export class PrivateComponent implements OnInit {
   privateEdit: boolean = true;
   
 
-  constructor(router:Router, _authService: AuthService, elRef:ElementRef, private cdRef: ChangeDetectorRef) {
+  constructor(router:Router, _viewService:ViewService, _authService: AuthService, private cdRef: ChangeDetectorRef) {
       this.router = router;
       this.authService = _authService;
+      this.viewService = _viewService;
   };
   
 
   ngOnInit() {
     
-    this.populate();
+    this.getCollections();
     
   };
   
-  populate(){
+  getCollections(){
     
     var me = this;
     
@@ -61,12 +66,16 @@ export class PrivateComponent implements OnInit {
       });
       
       $.each(colls, function(i, coll){
+        
+        var r = 0;
+        
+        if(coll.ratingPoints != 0){
+          r = coll.ratingPoints / coll.ratingNum;
+        }
     
         // Example object
-        var tempCard: { deleted: boolean, id:string, title: string, description: string, showEdit: Boolean, private:Boolean } = { deleted: false, id:coll._id, title: coll.title, description: coll.description, showEdit: false, private:coll.private }
+        var tempCard: { deleted: boolean, id:string, title: string, description: string, showEdit: Boolean, private:Boolean, rating: any, images: any[]  } = { deleted: false, id:coll._id, title: coll.title, description: coll.description, showEdit: false, private:coll.private, rating: r, images: coll.images }
         me.cardArray.push(tempCard);
-        
-        console.log("current state of array: " + JSON.stringify(me.cardArray))
         
         me.cdRef.detectChanges();
         
@@ -123,6 +132,18 @@ export class PrivateComponent implements OnInit {
   
   privateToggle(card){
     card.private = !card.private;
+  }
+  
+  view(card){
+    
+    this.viewService.setCollectionViewed(card,'./private', true);
+    
+    var test = this.viewService.getCollectionViewed();
+    
+    console.log(test);
+    
+    this.router.navigate(['./imageView']);
+    
   }
   
   //Routing

@@ -1,1 +1,26 @@
-<p>{{test}}</p>
+ <body>
+   <button type = "submit" class = "btn btn-primary form-control" (click)="back()">Back To Browse</button>
+      
+      <div class="container">
+
+      <h1 class="my-4 text-center text-lg-left">You are viewing: {{card.title}}</h1>
+     
+      <div class="row text-center text-lg-left">
+          
+        <div *ngFor = "let img of card.images">
+  
+          <div class="col-lg-3 col-md-4 col-xs-6">
+            <a href={{img}} target = "_blank" class="d-block mb-4 h-100">
+              <img class="img-fluid img-thumbnail" src={{img}} alt="">
+            </a>
+            <div *ngIf= "isPrivate">
+               <button type="button" class="btn btn-primary" (click)="removeImage(card,img)"> Remove </button>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+
+    </div>
+    
+</body>

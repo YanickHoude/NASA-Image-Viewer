@@ -133,10 +133,6 @@ export class SearchComponent implements OnInit {
     
     var me = this;
     
-    console.log("check 1: " + link);
-    console.log("check 2: " + collection.title);
-    console.log("check 2: " + collection._id);
-    
     $.ajax({
       type: 'PUT',
       dataType: 'json',

@@ -9,6 +9,7 @@ import {RouterModule} from '@angular/router';
 //import services
 import {DataService} from './data.service';
 import {AuthService} from './services/auth.service';
+import {ViewService} from './services/view.service';
 
 //import components
 import { ImageviewComponent } from './components/imageview/imageview.component';
@@ -24,6 +25,7 @@ import { FormsModule } from '@angular/forms';
 
 
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -33,7 +35,7 @@ import { FormsModule } from '@angular/forms';
     PublicComponent,
     PrivateComponent,
     CreateComponent,
-    SearchComponent
+    SearchComponent,
   ],
   
   imports: [
@@ -74,11 +76,15 @@ import { FormsModule } from '@angular/forms';
         component: SearchComponent
       },
       
+      {
+        path: 'imageView',
+        component: ImageviewComponent
+      },
       
       ])
   ],
   
-  providers: [DataService, AuthService],
+  providers: [DataService, AuthService, ViewService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

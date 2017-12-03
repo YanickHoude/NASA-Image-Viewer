@@ -68,13 +68,7 @@ export class SearchbarComponent  {
         
         //empty array for image links
         var coll = [];
-        
-        $.getJSON(object.href, function(result){
-            $.each(result, function(i, ilink){
-                Coll.coll.push(str.toString(ilink));
-                coll.push(ilink);
-            });
-        });
+
         
         console.log(Coll)
         

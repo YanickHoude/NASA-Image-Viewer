@@ -7,6 +7,7 @@ const path = require('path')
 const http = require('http')
 const bcrypt = require('bcrypt')
 const cors = require('cors');
+const nodemailer = require('nodemailer')
 const app = express()
 app.use(cors())//stop that stupid header error
 
@@ -46,6 +47,32 @@ router.get('/', function(req,res){
 });
 
 //++++++++++++++++++++
+// email confirmation
+//++++++++++++++++++++
+
+router.route('/:confirmationHash)
+
+    .get(function(req,res){
+        
+        //getting all the users created in the database
+        User.find(function(err,users){
+            if(err){
+                res.send(err);
+            }
+            
+            for(user in users){
+                if(user.activeHash === confirmationHash){
+                    user.active = true;
+                    res.json({ message: 'Email Confirmed' });
+                }
+                else{
+                    res.json({ message: 'How did this even happen' })
+                }
+            }
+            
+        });
+    });
+//++++++++++++++++++++
 // user
 //++++++++++++++++++++
 router.route('/user')
@@ -56,6 +83,13 @@ router.route('/user')
         
         //hash that password baby
         user.hash = bcrypt.hashSync(req.body.password,10);
+        
+        //email confirmation 
+        user.active = false;
+        user.activeHash = bcrypt.hasOwnProperty(req.body.email);
+        const confirmationLink = "https://lab5-yanickhoude.c9users.io:8080/" + user.activeHash;
+        
+      
         
         user.save(function(err){
             if(err){
@@ -198,6 +232,33 @@ router.route('/collections/save/:collection_id')
                 res.json({messsage: 'Successfully added image to collection'})
             })
         })
+    })
+    
+    .delete(function(req,res){
+        
+        console.log("deleting");
+        
+        Collection.findById(req.params.collection_id, function(err,collection){
+            if (err){
+               res.send(err);
+            }
+            
+            console.log(collection.images);
+            var index = collection.images.indexOf(req.body.image);
+            if(index > -1){
+                collection.images.splice(index,1);
+            }
+            console.log(collection.images);
+            
+           collection.save(function(err){
+            if(err){
+                res.send(err)
+            }
+            
+            res.json({messsage: 'Successfully deleted image from collection'})
+        })
+            
+        });
     });
 
 

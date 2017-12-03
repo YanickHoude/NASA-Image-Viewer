@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {AuthService} from '../../services/auth.service';
+import {ViewService} from '../../services/view.service';
 import {Router} from '@angular/router';
 import { ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
 
@@ -16,14 +17,21 @@ declare var $:any;
 })
 export class PublicComponent implements OnInit {
 
+  //import variables
   router:Router;
   authService:AuthService;
+  viewService:ViewService;
+  
+  //variables for collection view
   cardArray:any[] = new Array();
   rating:any;
+  browsing: boolean = true;
 
-  constructor(router:Router, _authService: AuthService, private cdRef: ChangeDetectorRef) {
+
+  constructor(router:Router, _viewService:ViewService, _authService: AuthService, private cdRef: ChangeDetectorRef) {
       this.router = router;
       this.authService = _authService;
+      this.viewService = _viewService;
   };
   
 
@@ -36,6 +44,12 @@ export class PublicComponent implements OnInit {
     // else{
     //   $('#email').text(this.authService.getEmail() + "'s N(ice)ASA Profile");
     // }
+    
+    this.getCollections()
+
+  };
+  
+  getCollections(){
     
     var me = this;
     
@@ -57,10 +71,9 @@ export class PublicComponent implements OnInit {
         if(coll.ratingPoints != 0){
           r = coll.ratingPoints / coll.ratingNum;
         }
-
-         
+        
         if(!coll.private){
-          var tempCard: { id:string, title: string, description: string, user:any, showRate:boolean, rating: any } = { id:coll._id, title: coll.title, description: coll.description, user: coll.user, showRate:false, rating: r };
+          var tempCard: {deleted: boolean, edited: boolean, rated: boolean, id:string, title: string, description: string, user:any, showRate:boolean, rating: any, images: any[] } = {deleted: false, edited: false, rated: false, id:coll._id, title: coll.title, description: coll.description, user: coll.user, showRate:false, rating: r, images: coll.images };
           me.cardArray.push(tempCard);
           }
       });
@@ -68,12 +81,11 @@ export class PublicComponent implements OnInit {
       //bubble sort
       me.cardArray = me.bubbleSort(me.cardArray);
       
-      console.log(me.cardArray);
-      
       me.cdRef.detectChanges();
     
     });
-  };
+    
+  }
   
   bubbleSort(array){
     var len = array.length;
@@ -115,7 +127,23 @@ export class PublicComponent implements OnInit {
         rating: me.rating
       }
     });
+    
+    card.rating = me.rating;
+    
   };
+  
+  view(card){
+    
+    this.viewService.setCollectionViewed(card, './public', false);
+    
+    var test = this.viewService.getCollectionViewed();
+    
+    console.log(test);
+    
+    this.router.navigate(['./imageView']);
+    
+  }
+
   
   allColls(){
     
