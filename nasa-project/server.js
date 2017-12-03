@@ -50,26 +50,46 @@ router.get('/', function(req,res){
 // email confirmation
 //++++++++++++++++++++
 
-router.route('/:confirmationHash)
+router.route('/user/:user_id')
 
     .get(function(req,res){
         
+        console.log('sanity')
+        
+                    
+        console.log("params:" + req.params.user_id);
+            
         //getting all the users created in the database
-        User.find(function(err,users){
+        User.findById(req.params.user_id, function(err,user){
+            
+            console.log("user:" + user._id);
+            
             if(err){
                 res.send(err);
             }
             
-            for(user in users){
-                if(user.activeHash === confirmationHash){
-                    user.active = true;
-                    res.json({ message: 'Email Confirmed' });
+            user.active = true;
+            
+            user.save(function(err){
+                if(err){
+                    res.send(err)
                 }
-                else{
-                    res.json({ message: 'How did this even happen' })
-                }
+                
+                res.json({messsage: 'Succesfully verified account'});
+            })
+        });
+    })
+    
+    .delete(function(req,res){
+        
+        console.log('sanity1: ' + req.params.user_id);
+        User.remove({_id: req.params.user_id}, function(err,user){
+            
+            if(err){
+                res.send(err);
             }
             
+            res.json({message: "Successfully deleted user"});
         });
     });
 //++++++++++++++++++++
@@ -86,10 +106,48 @@ router.route('/user')
         
         //email confirmation 
         user.active = false;
-        user.activeHash = bcrypt.hasOwnProperty(req.body.email);
-        const confirmationLink = "https://lab5-yanickhoude.c9users.io:8080/" + user.activeHash;
+        user.activeHash = bcrypt.hashSync(req.body.email,10);
         
-      
+        console.log(user._id);
+        
+        console.log(user.activeHash);
+        const confirmationLink = 'https://lab5-yanickhoude.c9users.io:8081/api/user/' + user._id;
+        const emailContent = "<a href="+confirmationLink+">link text</a><p>" + confirmationLink +"</p>";
+        
+        console.log(emailContent);
+        
+        //nodemailer implementation
+        // create reusable transporter object using the default SMTP transport
+        let transporter = nodemailer.createTransport({
+            host: "smtp.gmail.com",
+            port: 587,
+            secure: false, // true for 465, false for other ports
+            auth: {
+                user: '250796261lab5@gmail.com', // generated ethereal user
+                pass: '250796261'  // generated ethereal password
+            }
+        });
+    
+        // setup email data with unicode symbols
+        let mailOptions = {
+            from: '"N(ice) ASA" <250796261lab5@gmail.com>', // sender address
+            to: user.email, // list of receivers
+            subject: 'Email Confirmation ✔', // Subject line
+            text: 'Hello world?', // plain text body
+            html: emailContent // html body
+        };
+    
+        // send mail with defined transport object
+        transporter.sendMail(mailOptions, (error, info) => {
+            if (error) {
+                return console.log(error);
+            }
+            console.log('Message sent: %s', info.messageId);
+            console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
+    
+            // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@blurdybloop.com>
+            // Preview URL: https://ethereal.email/message/WaQKMgKddxQDoou...
+        });
         
         user.save(function(err){
             if(err){

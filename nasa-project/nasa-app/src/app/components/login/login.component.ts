@@ -19,6 +19,8 @@ export class LoginComponent {
   router:Router;
   authService:AuthService;
   userExists: boolean = false;
+  userActive: boolean = false;
+  userId: any; 
   cardArray:any[] = new Array();
   rating:any;
 
@@ -120,10 +122,13 @@ export class LoginComponent {
         //only add the collections that were made by this user to the array
         if(this.email == $('#email').val()){
           me.userExists = true;
+          me.userActive = this.active;
         }
       });
     
-      if(me.userExists && this.active){
+      console.log(me.userActive);
+      
+      if(me.userExists && me.userActive){
       
       $.ajax({
         type: 'POST',
@@ -153,8 +158,9 @@ export class LoginComponent {
     }
       else{
         $('#passError').css("display", "none");
-        if(!this.active){
-        window.alert("Need Email Confirmation");
+        if(!me.userActive){
+        console.log(me.userActive);
+        window.alert("Need To Register, or If Registered: Need Email Confirmation");
         }
         else{
         $('#emailError').css("display", "block");
@@ -168,6 +174,7 @@ export class LoginComponent {
   
   register(){
     
+    $('#resend').css("display", "block");
     $('#emailNull').css("display", "none");
     $('#passwordNull').css("display", "none");
     
@@ -212,6 +219,43 @@ export class LoginComponent {
     });
     
     this.userExists = false;
+  };
+  
+  resend(){
+    
+      var me = this;
+      
+      $.getJSON('https://lab5-yanickhoude.c9users.io:8081/api/user', function(data){
+     
+      $.each(data, function(){
+        //only add the collections that were made by this user to the array
+        if(this.email == $('#email').val()){
+          me.userId = this._id;
+        }
+      });
+      
+      console.log(me.userId);
+      
+      var that = me;
+    
+      $.ajax({
+        type: 'DELETE',
+        url: 'https://lab5-yanickhoude.c9users.io:8081/api/user/' + that.userId,
+      });
+      
+      // $.ajax({
+      //   type: 'POST',
+      //   url: 'https://lab5-yanickhoude.c9users.io:8081/api/user',
+      //   data: {
+      //     email: $('#email').val(),
+      //     password: $('#password').val()
+      //   }
+      // });
+      
+      me.register();
+      
+    
+    });
   }
   
   
