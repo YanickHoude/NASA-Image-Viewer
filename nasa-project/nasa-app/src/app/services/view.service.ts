@@ -8,6 +8,7 @@ export class ViewService {
     lastRoute: any;
     isPrivate: boolean = false;
     
+    //variables to allow for view component to work properly
     setCollectionViewed(collection:any, last:any, priv:boolean){
         this.collectionViewed = collection;
         this.hasRouted = true;

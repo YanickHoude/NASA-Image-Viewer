@@ -13,8 +13,8 @@ declare var $:any;
 })
 export class AdminComponent implements OnInit {
 
+  //variables for dmca tools
   requests: any[] = new Array();
-  
   req: any;
   email: any;
   
@@ -22,20 +22,23 @@ export class AdminComponent implements OnInit {
 
   ngOnInit() {
     
+    //gets the requests that have been logged
     this.requests = JSON.parse(localStorage.getItem("requests"));
     
   }
   
+  //will save a request that is entered into the input field to local storage
+  //can be accessed later by admin
   logRequest(){
-    
     var req = $("#request").val();
-    
+   
     this.requests.push(req);
     
     localStorage.setItem("requests", JSON.stringify(this.requests));
     
   }
   
+  //sends a dmca email notice 
   sendNotice(){
     
       $.ajax({
@@ -47,6 +50,8 @@ export class AdminComponent implements OnInit {
     });
   }
   
+  //will make it so that collection matching the id entered is not visible to any user
+  //will make it so blocked collection matching the id becomes visible again
   toggleCollection(){
     
     $.ajax({

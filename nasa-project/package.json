@@ -15,6 +15,7 @@
     "cfenv": "^1.0.4",
     "cookie-parser": "^1.4.3",
     "express": "^4.16.2",
+    "express-sanitizer": "^1.0.2",
     "express-session": "^1.15.5",
     "http": "0.0.0",
     "mongojs": "^2.4.1",

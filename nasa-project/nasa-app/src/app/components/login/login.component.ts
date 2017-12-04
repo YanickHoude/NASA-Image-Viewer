@@ -29,20 +29,20 @@ export class LoginComponent {
       this.router = router;
       this.authService = _authService;
   };
-  
-  //*******Make this into a component if you have time*******//
-  
+
   ngOnInit() {
     
       this.getCollections();
 
   };
   
+  //**********************************************************For public collection display****************************************************//
+  
+  //retrieves all public collections
   getCollections(){
     
     
     var me = this;
-    
     var colls = [];
     
     //get collections from backend
@@ -70,7 +70,7 @@ export class LoginComponent {
           }
       });
       
-      //bubble sort
+      //bubble sort by rating add to array that is used by ngFor on the frontend
       me.cardArray = me.bubbleSort(me.cardArray);
       
       me.cdRef.detectChanges();
@@ -79,6 +79,8 @@ export class LoginComponent {
     
   }
   
+  
+  //sorting algorithm
   bubbleSort(array){
     var len = array.length;
     
@@ -96,22 +98,22 @@ export class LoginComponent {
     return array;
   };
   
-//******************************************************//
+//************************** For user authentication ****************************//
   
   login(){
     
-    //check for admin
+    //check for admin and login immediately if admin
     if($('#email').val() === "admin" && $('#password').val() === "admin"){
       
       this.authService.adminSignIn();
       this.router.navigate(['./admin']);
       
     }
-    //authentication  
     
     $('#emailNull').css("display", "none");
     $('#passwordNull').css("display", "none");
     
+    //ensuring that a email or password has been entered
     if($('#email').val() == ''){
       $('#emailNull').css("display", "block");
       return;
@@ -122,22 +124,20 @@ export class LoginComponent {
       return;
     }
     
-    //allows us to access class elements within ajax callback function
     var me = this;
-    
   
+  //retrieve users and check if a user exists with matching email entered
    $.getJSON('https://lab5-yanickhoude.c9users.io:8081/api/user', function(data){
      
       $.each(data, function(){
-        //only add the collections that were made by this user to the array
+        //check if user exists and then sets the users "active" state to local variable
         if(this.email == $('#email').val()){
           me.userExists = true;
           me.userActive = this.active;
         }
       });
-    
-      console.log(me.userActive);
-      
+
+      //if the user exists and has gone through email validation then the password is checked and user logs in if match
       if(me.userExists && me.userActive){
       
       $.ajax({
@@ -182,6 +182,7 @@ export class LoginComponent {
     
   };
   
+  //user registration
   register(){
     
     $('#resend').css("display", "block");
@@ -200,6 +201,7 @@ export class LoginComponent {
     
     var me = this;
   
+    //checks to see if user already exists
      $.getJSON('https://lab5-yanickhoude.c9users.io:8081/api/user', function(data){
 
         $.each(data, function(){
@@ -212,6 +214,8 @@ export class LoginComponent {
         $('#regiError').css("display", "block");
       }
       else{
+        
+        //if user doesn't already exists, user is created and email confirmation linkn is sent, user is alerted of this
         $('#regiError').css("display", "none");
         
         window.alert("Account Created, Need Email Confirmation");
@@ -231,10 +235,13 @@ export class LoginComponent {
     this.userExists = false;
   };
   
+  
+  //email verification resent mechanism
   resend(){
     
       var me = this;
       
+      //retrieves the user in question
       $.getJSON('https://lab5-yanickhoude.c9users.io:8081/api/user', function(data){
      
       $.each(data, function(){
@@ -244,15 +251,17 @@ export class LoginComponent {
         }
       });
       
-      console.log(me.userId);
       
       var that = me;
-    
+      
+      //deletes that user in question
       $.ajax({
         type: 'DELETE',
         url: 'https://lab5-yanickhoude.c9users.io:8081/api/user/' + that.userId,
       });
     });
+    
+    //user is prompted to click "register" again which results in another email being sent
   }
   
   

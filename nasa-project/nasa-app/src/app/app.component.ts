@@ -21,6 +21,8 @@ export class AppComponent {
     
   };
   
+  //dmca stuff
+  
   showPrivacy(){
     this.router.navigate(['./privacypolicy']);
   }

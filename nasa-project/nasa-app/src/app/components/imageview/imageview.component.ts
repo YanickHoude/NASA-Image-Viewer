@@ -29,17 +29,18 @@ export class ImageviewComponent implements OnInit {
       return;
     };
     
+    //using a service to get the current collection details and whether it is owned by the current user or not
     this.card = this.viewService.getCollectionViewed();
     this.isPrivate = this.viewService.getPrivacy();
     
-    console.log(this.card);
-    
   }
   
+  //this isn't necessary (can just use back button) but incase user is confused, this will take them back to their last route
   back(){
     this.router.navigate([this.viewService.getLastRoute()]);
   }
   
+  //if the collection belongs to the user this will allow the user to remove images from the collection
   removeImage(card,img){
     
     var me = this;
@@ -51,7 +52,8 @@ export class ImageviewComponent implements OnInit {
           image: img
         }
       });
-      
+    
+    //card display image is updated to reflect the state of the image
     var index = card.images.indexOf(img);
     card.images[index] = "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/Removed.svg/2000px-Removed.svg.png"
       

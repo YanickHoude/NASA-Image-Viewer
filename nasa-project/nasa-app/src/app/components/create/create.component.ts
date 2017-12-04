@@ -22,21 +22,26 @@ export class CreateComponent implements OnInit {
   };
   
   ngOnInit() {
-    // if(!this.authService.check()){
-    //   this.router.navigate(['./login']);
-    // }
-    // else{
-    //   $('#email').text(this.authService.getEmail() + "'s N(ice)ASA Profile");
-    // }
+    
+    //checks to see if user is authenticated, if test fails they are routed back to login page to be validated
+    if(!this.authService.check()){
+      this.router.navigate(['./login']);
+    }
+    else{
+      $('#email').text(this.authService.getEmail() + "'s N(ice)ASA Profile");
+    }
   };
   
+  //allows user to create a collection
   createCollection(){
     
+    //variables for all values entered in the form
     var user = this.authService.getEmail();
     var priv = !$('#private').prop('checked');
     var title = $('#title').val();
     var desc = $('#description').val();
     
+    //post request, creating the collection in the backend
     $.ajax({
       type: 'POST',
       url: 'https://lab5-yanickhoude.c9users.io:8081/api/collections',
@@ -48,7 +53,8 @@ export class CreateComponent implements OnInit {
       },
       
       success:function(response) {
-         console.log(response);
+        
+        //collection created alert
          window.alert("Collection Created!");
          $('#private').prop('checked', false);
        },
@@ -59,6 +65,8 @@ export class CreateComponent implements OnInit {
     
   };
   
+  
+  //routes for the different application pages
   
   allColls(){
     

@@ -7,20 +7,24 @@ export class AuthService {
     activeUser: string = '';
     isAdmin: boolean = false;
     
+    //if user is authenticated variables are set to true and active user is saved so that site can be accessed
+    
     authenticated(email:string){
         this.isVerified = true;
         this.activeUser = email;
-        console.log(this.activeUser);
     };
     
+    //set admin state
     adminSignIn(){
         this.isAdmin = true;
     };
     
+    //return admin state
     getAdminStatus(){
         return this.isAdmin;
     }
     
+    //check if user is verified
     check(){
         if(this.isVerified){
             return true;
@@ -30,6 +34,7 @@ export class AuthService {
         }
     };
     
+    //get email of verified user
     getEmail(){
         return this.activeUser;
     };

@@ -20,8 +20,9 @@ export class PrivacypolicyComponent implements OnInit {
   constructor(private authService: AuthService) { }
 
   ngOnInit() {
-
-      if(localStorage.getItem("pEdits") !== null){
+    
+    //if edits have been made, update the DOM
+    if(localStorage.getItem("pEdits") !== null){
         this.update();
       }
     
@@ -34,6 +35,7 @@ export class PrivacypolicyComponent implements OnInit {
     }
   }
   
+  //saves current state (after edits) of all <p> and <h5> tags
   save(){
     
     var p = $("p");
@@ -53,6 +55,7 @@ export class PrivacypolicyComponent implements OnInit {
     localStorage.setItem("h5Edits", JSON.stringify(this.newh5));
   }
   
+  //updates current state (after ast admin edits) of all <p> and <h5> tags
   update(){
     var upP = JSON.parse(localStorage.getItem("pEdits"));
     var uph5 = JSON.parse(localStorage.getItem("h5Edits"));

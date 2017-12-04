@@ -44,10 +44,18 @@ export class PrivateComponent implements OnInit {
 
   ngOnInit() {
     
-    this.getCollections();
-    
+    //checks to see if user is authenticated, if test fails they are routed back to login page to be validated
+    if(!this.authService.check()){
+      this.router.navigate(['./login']);
+    }
+    else{
+      $('#email').text(this.authService.getEmail() + "'s N(ice)ASA Profile");
+      this.getCollections();
+    }
   };
   
+  
+  //retrieves all collections that were created by the current user
   getCollections(){
     
     var me = this;
@@ -87,10 +95,12 @@ export class PrivateComponent implements OnInit {
     
   }
   
+  //toggles the html edit div
   edit(card){
     card.showEdit = !card.showEdit;
   };
   
+  //deletes the collection, removed in real time using a boolean variable attached to the card
   delete(card){
     
     var result = confirm("Are you sure you want to delete this collection?");
@@ -110,6 +120,7 @@ export class PrivateComponent implements OnInit {
     }
   };
   
+  //saves the users edits using a "put" request call to the back end
   saveEdits(card){
     
     var me = this;
@@ -132,10 +143,12 @@ export class PrivateComponent implements OnInit {
     
   }
   
+  //toggles the visibility setting of the collection
   privateToggle(card){
     card.private = !card.private;
   }
   
+  //allows user to view the images held in that collection
   view(card){
     
     this.viewService.setCollectionViewed(card,'./private', true);

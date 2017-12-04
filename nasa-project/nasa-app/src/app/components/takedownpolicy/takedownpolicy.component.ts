@@ -17,6 +17,9 @@ export class TakedownpolicyComponent implements OnInit {
   
   constructor(private authService: AuthService) { }
 
+
+  //***********************************exact same functionality as privacy policy component just more simple*****************************************//
+  
   ngOnInit() {
     
       if(localStorage.getItem("edits") !== null){

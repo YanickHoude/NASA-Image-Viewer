@@ -42,12 +42,9 @@ export class SearchComponent implements OnInit {
    
  };
 
-  // Display the current value of the string in the console log
+  //Uses the nasa api to retrieve images based on user searchword
   searchDatabase(){
     
-    // this.cdRef.detectChanges();
-    
-    console.log("The value of the variable: " + this.searchText)
     
    //creating an object that holds what the user searched
     var postObj: { property: string; } = { property: this.searchText };
@@ -59,7 +56,7 @@ export class SearchComponent implements OnInit {
     console.log(this.searchText);
     
 
-      
+    //gets json associated with nasa api query
     $.getJSON(url, function(data){
       
       //console.log(JSON.stringify(data));
@@ -72,6 +69,7 @@ export class SearchComponent implements OnInit {
       
         //console.log(coll.href);
   
+        //gets the first image from the nasa collection json link returned by the original search query
         $.getJSON(coll.href, function(result){
 
           var tempImage: {link:string, save:boolean} = {link:result[0], save: false}
@@ -93,16 +91,19 @@ export class SearchComponent implements OnInit {
 
   };
   
+  //allows user to go to next page and view more images
   incrIndex(){
     this.nasaIndex++;
     this.cdRef.detectChanges();
   };
   
+  //allows user to go the last page
   decrIndex(){
     this.nasaIndex--;
     this.cdRef.detectChanges();
   };
   
+  //gets the collections owned by the current user so that they can add images to their collections
   getCollections(){
     
     this.userColls = [];
@@ -125,10 +126,12 @@ export class SearchComponent implements OnInit {
 
   };
   
+  //toggles the save image to collection html div
   saveImagePrompt(img){
      img.save = !img.save;
   };
   
+  //image link is saved in user collection using a PUT request to the api
   saveImage(link, collection){
     
     var me = this;
@@ -148,16 +151,15 @@ export class SearchComponent implements OnInit {
   ngOnInit() {
     
     //prevent someone from just navigating to profile without loging in
-    // if(!this.authService.check()){
-    //   this.router.navigate(['./login']);
-    // }
-    // else{
-    //   $('#email').text(this.authService.getEmail() + "'s N(ice)ASA Profile");
-    // }
-    
-    this.getCollections()
-    
-    console.log(this.userColls);
+    if(!this.authService.check()){
+      this.router.navigate(['./login']);
+    }
+    else{
+      $('#email').text(this.authService.getEmail() + "'s N(ice)ASA Profile");
+          
+      this.getCollections()
+    }
+
   };
   
   allColls(){

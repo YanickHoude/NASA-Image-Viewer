@@ -38,17 +38,19 @@ export class PublicComponent implements OnInit {
   ngOnInit() {
     
     //prevent someone from just navigating to profile without loging in
-    // if(!this.authService.check()){
-    //   this.router.navigate(['./login']);
-    // }
-    // else{
-    //   $('#email').text(this.authService.getEmail() + "'s N(ice)ASA Profile");
-    // }
-    
-    this.getCollections()
+    if(!this.authService.check()){
+      this.router.navigate(['./login']);
+    }
+    else{
+      $('#email').text(this.authService.getEmail() + "'s N(ice)ASA Profile");
+          
+      this.getCollections()
+    }
+
 
   };
   
+  //get all public collections
   getCollections(){
     
     var me = this;
@@ -89,6 +91,8 @@ export class PublicComponent implements OnInit {
     
   }
   
+  
+  //sorts collections by rating
   bubbleSort(array){
     var len = array.length;
     
@@ -106,10 +110,12 @@ export class PublicComponent implements OnInit {
     return array;
   };
   
+  //toggles the rating div in the html (uses ngIf)
   rate(card){
     card.showRate = !card.showRate;
   };
   
+  //user rating entered gets put into the backend
   saveRating(card){
     
     card.showRate = !card.showRate;
@@ -134,6 +140,7 @@ export class PublicComponent implements OnInit {
     
   };
   
+  //allows user to view images within a collection
   view(card){
     
     this.viewService.setCollectionViewed(card, './public', false);
@@ -144,8 +151,10 @@ export class PublicComponent implements OnInit {
     
     this.router.navigate(['./imageView']);
     
-  }
+  };
 
+  
+  //Routing
   
   allColls(){
     

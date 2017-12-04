@@ -9,12 +9,14 @@ const bcrypt = require('bcrypt')
 const cors = require('cors');
 const nodemailer = require('nodemailer')
 const app = express()
+const expressSanitizer = require('express-sanitizer');
 app.use(cors())//stop that stupid header error
 
 // configure app to use bodyParser
 // this will let us get the data from a POST
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.use(expressSanitizer());
 
 //adding URI for mongodb
 var mongoose = require('mongoose');
@@ -92,6 +94,7 @@ router.route('/user/:user_id')
             res.json({message: "Successfully deleted user"});
         });
     });
+    
 //++++++++++++++++++++
 // user
 //++++++++++++++++++++
