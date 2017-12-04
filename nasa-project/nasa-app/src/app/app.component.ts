@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-
+import {Router} from '@angular/router';
 //importing dataservice
 import {DataService} from './data.service';
 
@@ -17,8 +17,16 @@ declare var $:any;
 
 export class AppComponent {
     
-  constructor(private _dataservice: DataService) { 
+  constructor(private _dataservice: DataService, private router: Router) { 
     
   };
+  
+  showPrivacy(){
+    this.router.navigate(['./privacypolicy']);
+  }
+
+  showTakedown(){
+    this.router.navigate(['./takedownpolicy']);
+  }
 }
 

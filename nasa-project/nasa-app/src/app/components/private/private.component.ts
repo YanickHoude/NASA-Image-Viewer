@@ -74,8 +74,10 @@ export class PrivateComponent implements OnInit {
         }
     
         // Example object
-        var tempCard: { deleted: boolean, id:string, title: string, description: string, showEdit: Boolean, private:Boolean, rating: any, images: any[]  } = { deleted: false, id:coll._id, title: coll.title, description: coll.description, showEdit: false, private:coll.private, rating: r, images: coll.images }
-        me.cardArray.push(tempCard);
+        var tempCard: {disabled: boolean, deleted: boolean, id:string, title: string, description: string, showEdit: Boolean, private:Boolean, rating: any, images: any[]  } = {disabled: coll.disabled, deleted: false, id:coll._id, title: coll.title, description: coll.description, showEdit: false, private:coll.private, rating: r, images: coll.images }
+        if(!tempCard.disabled){
+          me.cardArray.push(tempCard);
+        }
         
         me.cdRef.detectChanges();
         

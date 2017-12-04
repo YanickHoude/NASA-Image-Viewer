@@ -17,6 +17,10 @@ export class AuthService {
         this.isAdmin = true;
     };
     
+    getAdminStatus(){
+        return this.isAdmin;
+    }
+    
     check(){
         if(this.isVerified){
             return true;

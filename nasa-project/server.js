@@ -179,8 +179,73 @@ router.route('/user')
             res.json({ message: 'Successfully deleted users' });
         });
     });
-    
+ 
+//++++++++++++++++++++
+// dmca
+//++++++++++++++++++++  
 
+router.route('/dmca/:collection_id')
+
+    .put(function(req,res){
+        
+        console.log(req.params.collection_id);
+        
+        Collection.findById(req.params.collection_id, function(err,collection){
+            
+            if (err){
+               res.send(err);
+            }
+            
+            collection.disabled = !collection.disabled;
+            
+            collection.save(function(err){
+                if(err){
+                    res.send(err)
+                }
+                
+                res.json({messsage: 'Disabled/Reinstated Collection'})
+            })
+        })
+    });
+
+router.route('/dmca')
+
+    .post(function(req,res){
+        
+        console.log(req.body.email);
+        console.log('sanity');
+        
+        const notice = "<p>Pursuant to 17 USC 512(c)(3)(A), this communication serves as a statement that:I am [the exclusive rights holder] the duly authorized representative of the exclusive rightsholder] for [title of copyrighted material being infringed, and, if possible, additionalidentifying information such as ISBNs, publication dates, etc — or, if the material is a webpage, the URL];1. These exclusive rights are being violated by material available upon your site at thefollowing URL(s): [URLs of infringing material];2. I have a good faith belief that the use of this material in such a fashion is notauthorized by the copyright holder, the copyright holder's agent, or applicable law;3. Under penalty of perjury in a United States court of law, I certify that theinformation contained in this notification is accurate, and that I am authorized to acton behalf of the holder of the exclusive rights to the material in question;4. I may be contacted by the following methods (include all): [physical address,telephone number, and email address];I hereby request that you remove or disable access to this material as it appears on yourservice in as expedient a fashion as possible. Thank you.Regards,[your full legal name]</p>"
+       //nodemailer implementation
+        // create reusable transporter object using the default SMTP transport
+        let transporter = nodemailer.createTransport({
+            host: "smtp.gmail.com",
+            port: 587,
+            secure: false, // true for 465, false for other ports
+            auth: {
+                user: '250796261lab5@gmail.com', // generated ethereal user
+                pass: '250796261'  // generated ethereal password
+            }
+        });
+    
+        // setup email data with unicode symbols
+        let mailOptions = {
+            from: '"N(ice) ASA" <250796261lab5@gmail.com>', // sender address
+            to: req.body.email, // list of receivers
+            subject: 'Email Confirmation ✔', // Subject line
+            text: 'Hello world?', // plain text body
+            html: notice // html body
+        };
+    
+        // send mail with defined transport object
+        transporter.sendMail(mailOptions, (error, info) => {
+            if (error) {
+                return console.log(error);
+            }
+            console.log('Message sent: %s', info.messageId);
+            console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
+        });
+    });
 
 //++++++++++++++++++++
 // login
@@ -357,6 +422,7 @@ router.route('/collections')
         collection.ratingPoints = 0;
         collection.ratingNum = 0;
         collection.images = [];
+        collection.disabled = false;
         
         collection.save(function(err){
             if(err){

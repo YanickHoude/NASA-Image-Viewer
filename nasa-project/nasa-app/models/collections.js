@@ -11,7 +11,8 @@ var CollectionsSchema = new Schema({
     ratingPoints: Number,
     ratingNum: Number,
     private: Boolean,
-    images: [String]
+    images: [String],
+    disabled: Boolean
     
 });
 

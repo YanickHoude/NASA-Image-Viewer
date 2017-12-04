@@ -25,15 +25,13 @@ export class PrivacypolicyComponent implements OnInit {
         this.update();
       }
     
-    // if(this.authService.adminSignIn()){
+    if(this.authService.getAdminStatus()){
     //   admin is signed in, everything can be edited
     //   button will appear to save edits
-
-
       this.isAdmin = true;
       $("p").attr("contenteditable", "true");
       $("h5").attr("contenteditable", "true");
-  //  }
+    }
   }
   
   save(){

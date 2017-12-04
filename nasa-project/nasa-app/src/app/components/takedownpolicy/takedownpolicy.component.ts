@@ -1,4 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import {AuthService} from '../../services/auth.service';
+
+//allow the use of jQuery
+declare var jquery:any;
+declare var $:any;
+
 
 @Component({
   selector: 'app-takedownpolicy',
@@ -7,9 +13,34 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TakedownpolicyComponent implements OnInit {
 
-  constructor() { }
+  isAdmin:boolean = false;
+  
+  constructor(private authService: AuthService) { }
 
   ngOnInit() {
+    
+      if(localStorage.getItem("edits") !== null){
+        this.update();
+      }
+      
+      if(this.authService.getAdminStatus()){
+    //   admin is signed in, everything can be edited
+    //   button will appear to save edits
+      this.isAdmin = true;
+      $("p").attr("contenteditable", "true");
+    }
+  }
+  
+  
+  save(){
+    
+    var p = $("p").text();
+    
+    localStorage.setItem("edits", p);
+  }
+  
+  update(){
+    $("p").text(localStorage.getItem("edits"));
   }
 
 }

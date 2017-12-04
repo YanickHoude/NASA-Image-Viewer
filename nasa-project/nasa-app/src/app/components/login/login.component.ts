@@ -63,8 +63,10 @@ export class LoginComponent {
         }
         
         if(!coll.private){
-          var tempCard: {deleted: boolean, edited: boolean, rated: boolean, id:string, title: string, description: string, user:any, showRate:boolean, rating: any, images: any[] } = {deleted: false, edited: false, rated: false, id:coll._id, title: coll.title, description: coll.description, user: coll.user, showRate:false, rating: r, images: coll.images };
-          me.cardArray.push(tempCard);
+          var tempCard: {disabled: boolean, deleted: boolean, edited: boolean, rated: boolean, id:string, title: string, description: string, user:any, showRate:boolean, rating: any, images: any[] } = {disabled: coll.disabled, deleted: false, edited: false, rated: false, id:coll._id, title: coll.title, description: coll.description, user: coll.user, showRate:false, rating: r, images: coll.images };
+          if(!tempCard.disabled){
+            me.cardArray.push(tempCard);
+          }
           }
       });
       
