@@ -97,6 +97,14 @@ export class LoginComponent {
 //******************************************************//
   
   login(){
+    
+    //check for admin
+    if($('#email').val() === "admin" && $('#password').val() === "admin"){
+      
+      this.authService.adminSignIn();
+      this.router.navigate(['./admin']);
+      
+    }
     //authentication  
     
     $('#emailNull').css("display", "none");
@@ -242,19 +250,6 @@ export class LoginComponent {
         type: 'DELETE',
         url: 'https://lab5-yanickhoude.c9users.io:8081/api/user/' + that.userId,
       });
-      
-      // $.ajax({
-      //   type: 'POST',
-      //   url: 'https://lab5-yanickhoude.c9users.io:8081/api/user',
-      //   data: {
-      //     email: $('#email').val(),
-      //     password: $('#password').val()
-      //   }
-      // });
-      
-      me.register();
-      
-    
     });
   }
   

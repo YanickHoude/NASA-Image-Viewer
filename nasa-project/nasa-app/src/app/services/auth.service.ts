@@ -5,11 +5,16 @@ export class AuthService {
     
     isVerified: boolean = false;
     activeUser: string = '';
+    isAdmin: boolean = false;
     
     authenticated(email:string){
         this.isVerified = true;
         this.activeUser = email;
         console.log(this.activeUser);
+    };
+    
+    adminSignIn(){
+        this.isAdmin = true;
     };
     
     check(){
@@ -23,6 +28,6 @@ export class AuthService {
     
     getEmail(){
         return this.activeUser;
-    }
+    };
  }
   

@@ -23,6 +23,12 @@ import { SearchComponent } from './components/search/search.component';
 // Using NgModel for variable binding in HTML
 import { FormsModule } from '@angular/forms';
 
+// DMCA
+import { PrivacypolicyComponent } from './components/privacypolicy/privacypolicy.component';
+import { TakedownpolicyComponent } from './components/takedownpolicy/takedownpolicy.component';
+import { AdminComponent } from './components/admin/admin.component';
+
+
 
 
 
@@ -36,6 +42,9 @@ import { FormsModule } from '@angular/forms';
     PrivateComponent,
     CreateComponent,
     SearchComponent,
+    PrivacypolicyComponent,
+    TakedownpolicyComponent,
+    AdminComponent
   ],
   
   imports: [
@@ -79,6 +88,21 @@ import { FormsModule } from '@angular/forms';
       {
         path: 'imageView',
         component: ImageviewComponent
+      },
+      
+          {
+        path: 'admin',
+        component: AdminComponent
+      },
+      
+          {
+        path: 'privacypolicy',
+        component: PrivacypolicyComponent
+      },
+      
+          {
+        path: 'takedownpolicy',
+        component: TakedownpolicyComponent
       },
       
       ])
